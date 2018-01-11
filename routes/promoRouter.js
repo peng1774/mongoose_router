@@ -10,18 +10,18 @@ promoRouter.route('/')
 	Promotions.find({})
 	.then((promotions)=>{
 		res.statusCode = 200;
-		res.setHeader = ("Content-Type","application/json");
+		res.setHeader("Content-Type","application/json");
 		res.json(promotions);
 	},(err)=>next(err))
 	.catch((err)=>next(err));
 })
 .post((req,res,next)=>{
 	Promotions.create(req.body)
-	.then((dish)=>{
+	.then(({promotion})=>{
 		console.log('promotion created successfully');
 		res.statusCode = 200;
 		res.setHeader("Content-Type","application'json");
-		res.json(Promotions);
+		res.json(promotion);
 	},(err)=>next(err))
 	.catch((err)=>next(err));
 })
@@ -33,7 +33,7 @@ promoRouter.route('/')
 	Promotions.remove({})
 	.then((resp)=>{
 		res.statusCode = 200;
-		res.setHeader = ("Content-Type","application/json");
+		res.setHeader("Content-Type","application/json");
 		res.json(resp);
 	},(err)=>next(err))
 	.catch((err)=>next(err));

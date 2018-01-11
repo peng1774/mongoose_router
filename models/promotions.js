@@ -26,7 +26,8 @@ var promotionSchema = new Schema({
 		require: true
 	}
 }
-,{timestamps: true}
+,{timestamps: true
+	,usePushEach: true}
 );
 
 var Promotions = mongoose.model('promotion',promotionSchema);
