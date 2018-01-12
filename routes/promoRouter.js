@@ -17,10 +17,10 @@ promoRouter.route('/')
 })
 .post((req,res,next)=>{
 	Promotions.create(req.body)
-	.then(({promotion})=>{
-		console.log('promotion created successfully');
+	.then((promotion)=>{
+		console.log('promotion created successfully, promotion: ', promotion);
 		res.statusCode = 200;
-		res.setHeader("Content-Type","application'json");
+		res.setHeader("Content-Type","application/json");
 		res.json(promotion);
 	},(err)=>next(err))
 	.catch((err)=>next(err));
@@ -34,6 +34,49 @@ promoRouter.route('/')
 	.then((resp)=>{
 		res.statusCode = 200;
 		res.setHeader("Content-Type","application/json");
+		res.json(resp);
+	},(err)=>next(err))
+	.catch((err)=>next(err));
+});
+
+
+
+promoRouter.route('/:promotionId')
+.get((req,res,next)=>{
+	Promotions.findById(req.params.promotionId)
+	.then((promotion)=>{
+			// if(promotion){
+			// 	res.statusCode = 200;
+			// 	res.setHeader('Content-Type','application/json');
+			// 	res.json(promotion);
+			// }
+			// else 
+			// 	return next(new Error('promotion id not found.'));
+			res.statusCode = 200;
+			res.setHeader('Content-Type', 'application/json');
+			res.json(promotion);
+		},(err)=>next(err))
+	.catch((err)=>next(err));
+})
+.post((req,res,next)=>{
+	res.statusCode = 403;
+	res.end('POST is not supported.');
+})
+.put((req,res,next)=>{
+	Promotions.findByIdAndUpdate(req.params.promotionId,
+		{$set: req.body}, {new: true})
+	.then((promotion)=>{
+		res.statusCode = 200;
+		res.setHeader('Content-Type','application/json');
+		res.json(promotion);
+	},(err)=>next(err))
+	.catch((err)=>next(err));
+})
+.delete((req,res,next)=>{
+	Promotions.findByIdAndRemove(req.params.promotionId)
+	.then((resp)=>{
+		res.statusCode = 200;
+		res.setHeader('Content-Type','application/json');
 		res.json(resp);
 	},(err)=>next(err))
 	.catch((err)=>next(err));
